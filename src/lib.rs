@@ -99,6 +99,27 @@ impl Table {
             count: 0,
         }
     }
+
+    pub fn insert(&mut self, key: u64, value: u64) {
+        if (self.count + 1) as f64 > self.capacity as f64 * FACTOR {
+            self.grow_capacity(&key, &value);
+        }
+        let ind = calculate_fxhash(&key) & (self.capacity - 1);
+        let mut buc = Bucket::new(key, value, ind);
+        match self.cells[ind as usize].is_none() {
+            true => {
+                self.count += 1;
+                self.cells[ind as usize] = Some(buc);
+                let index = knuth_multiplicative_hash(key) & (self.indexes.len() as u64 -1);
+                self.indexes[index as usize] =  ind;
+                println!("knuth_index is :{:?}", self.indexes);
+                return;
+            },
+            _ => {
+                self.resolve_collision(&mut buc, self.cells[ind as usize].clone().unwrap().key_ref());
+            }
+        }
+    }
 }
 
 
