@@ -219,9 +219,38 @@ impl Table {
         let x : &mut Bucket =  self.cells[*index as usize].as_mut().unwrap();
         x
     }
+
+
 }
 
 
+#[inline]
+fn knuth_multiplicative_hash (key:u64)-> u64{
+    (key * KNUTH) >> (32 - MOST_SIG)
+}
+
+
+
+#[inline]
+fn calculate_fxhash(key_to_hash: &u64) -> u64 {
+    let mut state = FxHasher64::default();
+    state.write_u64(*key_to_hash);
+    state.finish() as u64
+}
+
+#[inline]
+fn calculate_ahash(key_to_hash: &u64) -> u64 {
+    let mut state = AHasher::default();
+    state.write_u64(*key_to_hash);
+    state.finish() as u64
+}
+
+#[inline]
+fn calculate_fnvhash(key_to_hash: &u64) -> u64 {
+    let mut state = FnvHasher::default();
+    state.write_u64(*key_to_hash);
+    state.finish() as u64
+}
 
 
 
