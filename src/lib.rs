@@ -158,6 +158,41 @@ impl Table {
         }
     }
 
+    fn calc_index(&mut self, key_index :u64, key : &u64, value :&u64, q:&mut Queue<Collide> ){
+        match key_index < self.capacity {
+            true => {
+                match self.cells[key_index as usize].is_none() {
+                    true => {
+                        self.count += 1;
+                        let buc = Bucket::new(*key, *value, key_index);
+                        println!("buc is : {:?}",buc);
+                        self.cells[key_index as usize] = Some(buc);
+                        let index = knuth_multiplicative_hash(*key) & (self.indexes.len() as u64 -1);
+                        println!("knuth_index is :{:?}", index);
+                        self.indexes[index as usize] = key_index;
+                        println!("key_index is :{:?}",key_index);
+                    }
+                    _ => {
+                        let collision: Collide = (*key,self.cells[key_index as usize].clone().unwrap().key() );
+                        self.grow_capacity(&key,&value);
+                        //q.add(collision);
+                        //self.cells[(key_index as usize)] = None;
+                        println!("keys in collision : {:?}-{:?}",self.cells[key_index as usize].clone().unwrap().key(),*key);
+                        println!("collision is : {:?}",collision);
+                        println!("collision key index is : {:?}",key_index);
+                        println!("queue index is : {:?}",q);
+                    }
+
+                }
+
+            }
+            _ =>{
+                self.grow_capacity(&key,&value);
+                println!("col is : {:?}  ", q);
+            }
+        }
+    }
+
 
 }
 
