@@ -18,6 +18,15 @@ pub struct Bucket
 
 impl Bucket {
 
+
+    pub fn new(key: u64, value: u64, index: u64) -> Self  {
+        Bucket {
+            key,
+            value,
+            index,
+            collisions : vec![],
+        }
+    }
 }
 
 
