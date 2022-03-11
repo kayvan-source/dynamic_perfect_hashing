@@ -252,6 +252,15 @@ fn calculate_fnvhash(key_to_hash: &u64) -> u64 {
     state.finish() as u64
 }
 
+#[inline]
+fn next_power_of2(n: &u64) -> u64 {
+    let mut p: u64 = 1;
+    while p <= *n {
+        p <<= 1;
+    }
+    p
+}
+
 
 
 
