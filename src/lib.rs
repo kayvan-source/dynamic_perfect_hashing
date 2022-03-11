@@ -82,7 +82,14 @@ pub struct Table {
 }
 
 impl Table {
-
+    pub fn new() -> Self {
+        Table {
+            cells: vec![None; CAPACITY as usize],
+            indexes: vec![0; CAPACITY as usize],
+            capacity: CAPACITY,
+            count: 0,
+        }
+    }
 }
 
 
