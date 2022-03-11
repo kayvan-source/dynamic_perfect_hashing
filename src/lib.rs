@@ -90,6 +90,15 @@ impl Table {
             count: 0,
         }
     }
+
+    pub fn new_grow(capacity:&u64) -> Self {
+        Table {
+            cells: vec![None; *capacity as usize],
+            indexes: vec![0; *capacity as usize],
+            capacity: *capacity,
+            count: 0,
+        }
+    }
 }
 
 
