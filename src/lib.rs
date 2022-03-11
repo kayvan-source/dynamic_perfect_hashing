@@ -126,6 +126,12 @@ impl Table {
         println!("knuth_index : {:?}",index);
         self.cells[self.indexes[index as usize] as usize].clone().unwrap().value()
     }
+
+    pub fn contains_in_collisions(&self, key: &u64) -> bool {
+        todo!()
+    }
+
+
 }
 
 
