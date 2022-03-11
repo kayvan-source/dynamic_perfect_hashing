@@ -1,10 +1,10 @@
-extern crate FastMap;
+extern crate dynamic_perfect_hashing;
 
 use std::io;
 use std::io::prelude::*;
 
 fn main() {
-    let mut hash_map = FastMap::Table::new();
+    let mut hash_map = dynamic_perfect_hashing::Table::new();
 
     let n = io::stdin();
     for line in n.lock().lines() {
