@@ -112,7 +112,6 @@ impl Table {
                 self.cells[ind as usize] = Some(buc);
                 let index = knuth_multiplicative_hash(key) & (self.indexes.len() as u64 -1);
                 self.indexes[index as usize] =  ind;
-                println!("knuth_index is :{:?}", self.indexes);
                 return;
             },
             _ => {
@@ -123,7 +122,6 @@ impl Table {
 
     pub fn get(&mut self , key:u64)-> u64{
         let index = knuth_multiplicative_hash(key) & (self.indexes.len() as u64 -1);
-        println!("knuth_index : {:?}",index);
         self.cells[self.indexes[index as usize] as usize].clone().unwrap().value()
     }
 
@@ -141,20 +139,13 @@ impl Table {
             let  coll: Collide = q.peek().unwrap();
             q.remove();
             let  index_from_key1 = calculate_fxhash(&coll.0) & (self.capacity - 1);
-            println!("col first = {:?}",coll);
             let index_from_key2 = calculate_fxhash(&coll.1) & (self.capacity - 1);
             let key_ind = calculate_fxhash(&coll.0) & (3);
-            println!("key_ind {:?}  ", key_ind);
             let cell_ind = calculate_fnvhash(&coll.1) & (3);
-            println!("cell_ind {:?}  ", cell_ind);
             self.calc_index(index_from_key1 + key_ind, &coll.0 , &buc.value, &mut q);
             //self.calc_index(index_from_key2 + cell_ind, &coll.1, &buc.value, &mut q);
             self.get_bucket_asmut(&buc.index).add_to_collisions(&coll.0);
             self.get_bucket_asmut(&buc.index).add_to_collisions(&coll.1);
-            //self.add_to_bucks(&buc.key, &key, & buc.value, coll, &mut q);
-            //self.cells[coll.0 as usize].clone().unwrap().update_index(& key_ind);
-            //self.cells[coll.1 as usize].clone().unwrap().update_index(& cell_ind);
-
         }
     }
 
@@ -165,22 +156,13 @@ impl Table {
                     true => {
                         self.count += 1;
                         let buc = Bucket::new(*key, *value, key_index);
-                        println!("buc is : {:?}",buc);
                         self.cells[key_index as usize] = Some(buc);
                         let index = knuth_multiplicative_hash(*key) & (self.indexes.len() as u64 -1);
-                        println!("knuth_index is :{:?}", index);
                         self.indexes[index as usize] = key_index;
-                        println!("key_index is :{:?}",key_index);
                     }
                     _ => {
                         let collision: Collide = (*key,self.cells[key_index as usize].clone().unwrap().key() );
                         self.grow_capacity(&key,&value);
-                        //q.add(collision);
-                        //self.cells[(key_index as usize)] = None;
-                        println!("keys in collision : {:?}-{:?}",self.cells[key_index as usize].clone().unwrap().key(),*key);
-                        println!("collision is : {:?}",collision);
-                        println!("collision key index is : {:?}",key_index);
-                        println!("queue index is : {:?}",q);
                     }
 
                 }
