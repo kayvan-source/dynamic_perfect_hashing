@@ -267,9 +267,25 @@ fn next_power_of2(n: &u64) -> u64 {
 
 #[cfg(test)]
 mod tests {
+    use super::*;
+
     #[test]
     fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
+        let mut test_2 = Table::new();
+        test_2.insert(258,34);
+        test_2.insert(12,31);
+        test_2.insert(39,31);
+        test_2.insert(45,31);
+        test_2.insert(259,22);
+        test_2.insert(1209,2);
+        test_2.insert(1809,234);
+        test_2.insert(25,1234);
+        test_2.insert(15,1234);
+        test_2.insert(5,1234);
+        test_2.insert(2,1234);
+        test_2.insert(1030,1234);
+        assert_eq!(2,test_2.get(1209));
+        println!("vale of index is : {:?}",test_2.get(1809));
+        println!("The  element is: {:?}", test_2);
     }
 }
