@@ -215,7 +215,10 @@ impl Table {
         self.insert(*key,*val);
     }
 
-
+    fn get_bucket_asmut(&mut self , index :&u64) ->  &mut Bucket {
+        let x : &mut Bucket =  self.cells[*index as usize].as_mut().unwrap();
+        x
+    }
 }
 
 
