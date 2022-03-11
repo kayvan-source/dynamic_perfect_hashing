@@ -193,6 +193,28 @@ impl Table {
         }
     }
 
+    fn grow_capacity(  &mut self, key: &u64, val: &u64) {
+        println!("in grow_capacity  ");
+        let new_capacity = next_power_of2(&self.capacity);
+        println!("in grow_capacity new capacity {:?}  ",new_capacity);
+        let temp_old = self.cells.clone();
+        //let temp_new =  Table::new_grow(&new_capacity);
+        self.cells = vec![None; new_capacity as usize];
+        self.indexes = vec![0; new_capacity as usize];
+        self.count = 0;
+        self.capacity = new_capacity;
+        for x in temp_old.into_iter() {
+            match x {
+                None => (),
+                Some(x) =>{
+                    self.insert(x.key,x.value);
+                }
+            }
+
+        }
+        self.insert(*key,*val);
+    }
+
 
 }
 
