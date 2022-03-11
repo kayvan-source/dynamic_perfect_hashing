@@ -72,7 +72,14 @@ impl Bucket {
     }
 }
 
+#[derive(Clone,Debug)]
+pub struct Table {
+    cells: Vec<Option<Bucket>>,
+    indexes: Vec<u64>,
+    capacity: u64,
+    count: u64,
 
+}
 
 
 
