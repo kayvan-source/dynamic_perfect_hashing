@@ -120,6 +120,12 @@ impl Table {
             }
         }
     }
+
+    pub fn get(&mut self , key:u64)-> u64{
+        let index = knuth_multiplicative_hash(key) & (self.indexes.len() as u64 -1);
+        println!("knuth_index : {:?}",index);
+        self.cells[self.indexes[index as usize] as usize].clone().unwrap().value()
+    }
 }
 
 
