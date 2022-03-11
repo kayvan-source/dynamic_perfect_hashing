@@ -10,3 +10,7 @@ fxhash = "0.2.1"
 ahash = "0.7.4"
 fnv = "1.0.7"
 queues = "1.0.0"
+
+[[bin]]
+name = "naive_interpreter"
+doc = false
