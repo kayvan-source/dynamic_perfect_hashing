@@ -131,6 +131,33 @@ impl Table {
         todo!()
     }
 
+    fn resolve_collision(&mut self, buc: &mut Bucket, key: &u64) {
+        let mut q: Queue<Collide> = queue![];
+        let mut collision: Collide = (0, 0);
+        collision.0 = buc.key;
+        collision.1 = *key;
+        q.add(collision);
+        while q.size() > 0  {
+            let  coll: Collide = q.peek().unwrap();
+            q.remove();
+            let  index_from_key1 = calculate_fxhash(&coll.0) & (self.capacity - 1);
+            println!("col first = {:?}",coll);
+            let index_from_key2 = calculate_fxhash(&coll.1) & (self.capacity - 1);
+            let key_ind = calculate_fxhash(&coll.0) & (3);
+            println!("key_ind {:?}  ", key_ind);
+            let cell_ind = calculate_fnvhash(&coll.1) & (3);
+            println!("cell_ind {:?}  ", cell_ind);
+            self.calc_index(index_from_key1 + key_ind, &coll.0 , &buc.value, &mut q);
+            //self.calc_index(index_from_key2 + cell_ind, &coll.1, &buc.value, &mut q);
+            self.get_bucket_asmut(&buc.index).add_to_collisions(&coll.0);
+            self.get_bucket_asmut(&buc.index).add_to_collisions(&coll.1);
+            //self.add_to_bucks(&buc.key, &key, & buc.value, coll, &mut q);
+            //self.cells[coll.0 as usize].clone().unwrap().update_index(& key_ind);
+            //self.cells[coll.1 as usize].clone().unwrap().update_index(& cell_ind);
+
+        }
+    }
+
 
 }
 
