@@ -1,4 +1,10 @@
+use std::fmt::Debug;
+use std::hash::Hasher;
 
+use ahash::AHasher;
+use fnv::FnvHasher;
+use fxhash::FxHasher64;
+use queues::{IsQueue, Queue, queue};
 
 const CAPACITY: u64 = 16;
 const FACTOR: f64 = 0.75;
